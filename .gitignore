@@ -10,3 +10,17 @@ derby.log
 .DS_Store
 .ipynb_checkpoints/
 .claude/
+logs/
+# Terraform — never commit state or the provider cache
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# dbt build artifacts
+ecom_lakehouse/target/
+ecom_lakehouse/dbt_packages/
+ecom_lakehouse/logs/
+
+# Streaming data (generated/downloaded — regenerate via the generator)
+streaming_files/

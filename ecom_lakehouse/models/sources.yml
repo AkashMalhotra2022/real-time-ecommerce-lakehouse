@@ -1,0 +1,46 @@
+version: 2
+
+sources:
+  - name: gold
+    catalog: workspace
+    schema: ecom_gold
+    tables:
+      - name: dim_customer
+        columns:
+          - name: customer_id
+            tests:
+              - not_null
+              - unique
+      - name: dim_date
+        columns:
+          - name: date_key
+            tests:
+              - not_null
+              - unique
+      - name: dim_product
+      - name: dim_seller
+      - name: fact_orders
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - unique
+          - name: order_status
+            tests:
+              - accepted_values:
+                  arguments:
+                    values: ['delivered','shipped','canceled','unavailable','invoiced','processing','created','approved']
+          - name: customer_id
+            tests:
+              - relationships:
+                  arguments:
+                    to: source('gold', 'dim_customer')
+                    field: customer_id
+      - name: fact_order_items
+        columns:
+          - name: product_id
+            tests:
+              - relationships:
+                  arguments:
+                    to: source('gold', 'dim_product')
+                    field: product_id
