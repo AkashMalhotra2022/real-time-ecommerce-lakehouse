@@ -1,0 +1,163 @@
+<svg viewBox="0 0 1520 1100" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="many" markerWidth="16" markerHeight="16" refX="13" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1,6 L13,0 M1,6 L13,6 M1,6 L13,12" fill="none" stroke="#5B6470" stroke-width="1.5"/>
+    </marker>
+    <marker id="one" markerWidth="14" markerHeight="16" refX="7" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M7,1 L7,11" stroke="#5B6470" stroke-width="1.8"/>
+    </marker>
+    <filter id="sh2" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1520" height="1100" fill="#FFFFFF"/>
+
+  <!-- Title -->
+  <text x="760" y="46" text-anchor="middle" font-size="29" font-weight="700" fill="#161616">Gold Layer — Dimensional Model</text>
+  <text x="760" y="74" text-anchor="middle" font-size="15" fill="#5B6470">Constellation (galaxy) schema  ·  two fact tables share dim_date  ·  natural keys  ·  grain noted per fact</text>
+
+  <!-- ============ RELATIONSHIP LINES (drawn first, under boxes) ============ -->
+  <!-- dim_customer -> fact_orders -->
+  <line x1="200" y1="326" x2="430" y2="520" stroke="#5B6470" stroke-width="1.8" marker-start="url(#one)" marker-end="url(#many)"/>
+  <!-- dim_date -> fact_orders -->
+  <line x1="690" y1="336" x2="585" y2="520" stroke="#1E8A82" stroke-width="2.2" marker-start="url(#one)" marker-end="url(#many)"/>
+  <!-- dim_date -> fact_order_items -->
+  <line x1="835" y1="336" x2="930" y2="520" stroke="#1E8A82" stroke-width="2.2" marker-start="url(#one)" marker-end="url(#many)"/>
+  <!-- dim_product -> fact_order_items -->
+  <line x1="1315" y1="350" x2="1095" y2="520" stroke="#5B6470" stroke-width="1.8" marker-start="url(#one)" marker-end="url(#many)"/>
+  <!-- dim_seller -> fact_order_items -->
+  <line x1="770" y1="870" x2="1005" y2="770" stroke="#5B6470" stroke-width="1.8" marker-start="url(#one)" marker-end="url(#many)"/>
+  <!-- fact_orders -> fact_order_items (degenerate order_id) -->
+  <line x1="640" y1="652" x2="860" y2="648" stroke="#8A7340" stroke-width="1.8" stroke-dasharray="5 4" marker-start="url(#one)" marker-end="url(#many)"/>
+
+  <!-- relationship labels with white halo -->
+  <g font-size="10" fill="#6B7280" paint-order="stroke" stroke="#FFFFFF" stroke-width="3">
+    <text x="300" y="432" text-anchor="middle">customer_id</text>
+    <text x="612" y="430" text-anchor="middle" fill="#1E8A82">order_date_key</text>
+    <text x="905" y="430" text-anchor="middle" fill="#1E8A82">order_date_key</text>
+    <text x="1228" y="440" text-anchor="middle">product_id</text>
+    <text x="905" y="828" text-anchor="middle">seller_id</text>
+    <text x="748" y="638" text-anchor="middle" fill="#8A7340">order_id (degenerate)</text>
+  </g>
+
+  <!-- ============ DIMENSION: customer ============ -->
+  <g filter="url(#sh2)"><rect x="60" y="150" width="280" height="176" rx="8" fill="#FFFFFF" stroke="#2BA39A" stroke-width="1.5"/></g>
+  <path d="M60,158 a8,8 0 0 1 8,-8 h264 a8,8 0 0 1 8,8 v38 h-280 z" fill="#2BA39A"/>
+  <text x="76" y="178" font-size="15.5" font-weight="700" fill="#FFFFFF">dim_customer</text>
+  <text x="324" y="178" text-anchor="end" font-size="10.5" fill="#D6F2EF">99,441 rows</text>
+  <g font-size="12.5" fill="#2C3542">
+    <rect x="74" y="206" width="24" height="15" rx="3" fill="#C99A2E"/><text x="86" y="217.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">PK</text>
+    <text x="106" y="217">customer_id</text>
+    <text x="76" y="240">customer_unique_id</text>
+    <text x="76" y="263">customer_city</text>
+    <text x="76" y="286">customer_state</text>
+    <text x="76" y="309">customer_zip_prefix</text>
+  </g>
+
+  <!-- ============ DIMENSION: date (shared) ============ -->
+  <g filter="url(#sh2)"><rect x="620" y="120" width="280" height="216" rx="8" fill="#FFFFFF" stroke="#1E8A82" stroke-width="2.5"/></g>
+  <path d="M620,128 a8,8 0 0 1 8,-8 h264 a8,8 0 0 1 8,8 v38 h-280 z" fill="#1E8A82"/>
+  <text x="636" y="148" font-size="15.5" font-weight="700" fill="#FFFFFF">dim_date  ★</text>
+  <text x="884" y="148" text-anchor="end" font-size="10.5" fill="#CFEFEC">852 rows</text>
+  <text x="636" y="162" font-size="9.5" fill="#CFEFEC">shared by both facts</text>
+  <g font-size="12.5" fill="#2C3542">
+    <rect x="634" y="178" width="24" height="15" rx="3" fill="#C99A2E"/><text x="646" y="189.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">PK</text>
+    <text x="666" y="189">date_key</text>
+    <text x="636" y="212">date</text>
+    <text x="636" y="235">year</text>
+    <text x="636" y="258">quarter</text>
+    <text x="636" y="281">month</text>
+    <text x="636" y="304">day_of_week</text>
+    <text x="636" y="327">is_weekend</text>
+  </g>
+
+  <!-- ============ DIMENSION: product ============ -->
+  <g filter="url(#sh2)"><rect x="1170" y="150" width="290" height="200" rx="8" fill="#FFFFFF" stroke="#2BA39A" stroke-width="1.5"/></g>
+  <path d="M1170,158 a8,8 0 0 1 8,-8 h274 a8,8 0 0 1 8,8 v38 h-290 z" fill="#2BA39A"/>
+  <text x="1186" y="178" font-size="15.5" font-weight="700" fill="#FFFFFF">dim_product</text>
+  <text x="1444" y="178" text-anchor="end" font-size="10.5" fill="#D6F2EF">32,951 rows</text>
+  <g font-size="12.5" fill="#2C3542">
+    <rect x="1184" y="206" width="24" height="15" rx="3" fill="#C99A2E"/><text x="1196" y="217.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">PK</text>
+    <text x="1216" y="217">product_id</text>
+    <text x="1186" y="240">category_name</text>
+    <text x="1186" y="263">category_name_english</text>
+    <text x="1186" y="286">weight_g</text>
+    <text x="1186" y="309">dimensions_cm</text>
+    <text x="1186" y="332">photos_qty</text>
+  </g>
+
+  <!-- ============ DIMENSION: seller ============ -->
+  <g filter="url(#sh2)"><rect x="620" y="870" width="280" height="152" rx="8" fill="#FFFFFF" stroke="#2BA39A" stroke-width="1.5"/></g>
+  <path d="M620,878 a8,8 0 0 1 8,-8 h264 a8,8 0 0 1 8,8 v38 h-280 z" fill="#2BA39A"/>
+  <text x="636" y="898" font-size="15.5" font-weight="700" fill="#FFFFFF">dim_seller</text>
+  <text x="884" y="898" text-anchor="end" font-size="10.5" fill="#D6F2EF">3,095 rows</text>
+  <g font-size="12.5" fill="#2C3542">
+    <rect x="634" y="926" width="24" height="15" rx="3" fill="#C99A2E"/><text x="646" y="937.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">PK</text>
+    <text x="666" y="937">seller_id</text>
+    <text x="636" y="960">seller_city</text>
+    <text x="636" y="983">seller_state</text>
+    <text x="636" y="1006">seller_zip_prefix</text>
+  </g>
+
+  <!-- ============ FACT: orders ============ -->
+  <g filter="url(#sh2)"><rect x="330" y="520" width="310" height="280" rx="8" fill="#FFFFFF" stroke="#3B4A6B" stroke-width="2"/></g>
+  <path d="M330,528 a8,8 0 0 1 8,-8 h294 a8,8 0 0 1 8,8 v40 h-310 z" fill="#3B4A6B"/>
+  <text x="346" y="548" font-size="16" font-weight="700" fill="#FFFFFF">fact_orders</text>
+  <text x="624" y="548" text-anchor="end" font-size="10.5" fill="#C3CBDC">99,433 rows</text>
+  <text x="346" y="563" font-size="9.5" fill="#C3CBDC">grain: one row per order</text>
+  <g font-size="12.5" fill="#2C3542">
+    <rect x="344" y="582" width="24" height="15" rx="3" fill="#C99A2E"/><text x="356" y="593.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">PK</text>
+    <text x="376" y="593">order_id</text>
+    <rect x="344" y="605" width="24" height="15" rx="3" fill="#4F6D9A"/><text x="356" y="616.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">FK</text>
+    <text x="376" y="616">customer_id</text>
+    <rect x="344" y="628" width="24" height="15" rx="3" fill="#4F6D9A"/><text x="356" y="639.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">FK</text>
+    <text x="376" y="639">order_date_key</text>
+  </g>
+  <line x1="344" y1="652" x2="626" y2="652" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="346" y="666" font-size="9" font-style="italic" fill="#9AA1AB" letter-spacing="0.5">MEASURES &amp; ATTRIBUTES</text>
+  <g font-size="12.5" fill="#2C3542">
+    <text x="346" y="687">order_status</text>
+    <text x="346" y="710">total_payment_value</text>
+    <text x="346" y="733">delivery_days</text>
+    <text x="346" y="756">estimated_delivery_days</text>
+    <text x="346" y="779">is_late_delivery</text>
+  </g>
+
+  <!-- ============ FACT: order_items ============ -->
+  <g filter="url(#sh2)"><rect x="860" y="520" width="320" height="250" rx="8" fill="#FFFFFF" stroke="#3B4A6B" stroke-width="2"/></g>
+  <path d="M860,528 a8,8 0 0 1 8,-8 h304 a8,8 0 0 1 8,8 v40 h-320 z" fill="#3B4A6B"/>
+  <text x="876" y="548" font-size="16" font-weight="700" fill="#FFFFFF">fact_order_items</text>
+  <text x="1164" y="548" text-anchor="end" font-size="10.5" fill="#C3CBDC">112,642 rows</text>
+  <text x="876" y="563" font-size="9.5" fill="#C3CBDC">grain: one row per order line item</text>
+  <g font-size="12.5" fill="#2C3542">
+    <rect x="874" y="582" width="24" height="15" rx="3" fill="#C99A2E"/><text x="886" y="593.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">PK</text>
+    <text x="906" y="593">order_item_sk</text>
+    <rect x="874" y="605" width="24" height="15" rx="3" fill="#4F6D9A"/><text x="886" y="616.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">FK</text>
+    <text x="906" y="616">order_id</text>
+    <rect x="874" y="628" width="24" height="15" rx="3" fill="#4F6D9A"/><text x="886" y="639.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">FK</text>
+    <text x="906" y="639">product_id</text>
+    <rect x="874" y="651" width="24" height="15" rx="3" fill="#4F6D9A"/><text x="886" y="662.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">FK</text>
+    <text x="906" y="662">seller_id</text>
+    <rect x="874" y="674" width="24" height="15" rx="3" fill="#4F6D9A"/><text x="886" y="685.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">FK</text>
+    <text x="906" y="685">order_date_key</text>
+  </g>
+  <line x1="874" y1="698" x2="1166" y2="698" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="876" y="712" font-size="9" font-style="italic" fill="#9AA1AB" letter-spacing="0.5">MEASURES</text>
+  <g font-size="12.5" fill="#2C3542">
+    <text x="876" y="733">price</text>
+    <text x="876" y="756">freight_value</text>
+  </g>
+
+  <!-- ============ LEGEND ============ -->
+  <rect x="60" y="1042" width="1400" height="44" rx="8" fill="#F7F8FA" stroke="#E5E7EB" stroke-width="1"/>
+  <g font-size="12" fill="#3A3A3A">
+    <rect x="80" y="1057" width="28" height="16" rx="3" fill="#3B4A6B"/><text x="116" y="1069">Fact table</text>
+    <rect x="210" y="1057" width="28" height="16" rx="3" fill="#FFFFFF" stroke="#2BA39A" stroke-width="2"/><text x="246" y="1069">Dimension</text>
+    <rect x="350" y="1058" width="24" height="15" rx="3" fill="#C99A2E"/><text x="362" y="1069.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">PK</text><text x="382" y="1069">Primary key</text>
+    <rect x="490" y="1058" width="24" height="15" rx="3" fill="#4F6D9A"/><text x="502" y="1069.5" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">FK</text><text x="522" y="1069">Foreign key</text>
+    <line x1="640" y1="1065" x2="690" y2="1065" stroke="#5B6470" stroke-width="1.8" marker-start="url(#one)" marker-end="url(#many)"/><text x="700" y="1069">one-to-many</text>
+    <line x1="820" y1="1065" x2="870" y2="1065" stroke="#1E8A82" stroke-width="2.2"/><text x="880" y="1069" fill="#1E8A82">shared dimension</text>
+    <line x1="1030" y1="1065" x2="1080" y2="1065" stroke="#8A7340" stroke-width="1.8" stroke-dasharray="5 4"/><text x="1090" y="1069" fill="#8A7340">degenerate (order_id)</text>
+  </g>
+</svg>
